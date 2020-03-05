@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <link rel="stylesheet" href= "ConferenceStyle.css" type=text/css>
+        <link href="https://fonts.googleapis.com/css?family=Acme&display=swap" rel="stylesheet">
+        <title>Conference Registration Form</title>
+        <div>
+            <h1 id="page-title">Conference Registation Form</h1>
+        </div>
+    </head>
+    <body>
+        <div>
+            <form>
+                <lebal for="name">Name:</lebal><input id="name" class="form-control" type="text" Required maxlength="70"><br>
+                <lebal for="password">Password: </lebal><input id="password" class="form-control" type="password" Required><br>
+                <lebal for="email">Email:</lebal><input id="email" class="form-control" type="email" Required><br>
+                <lebal for="select-size">Shirt Size: </lebal><select id="select-size" class="form-control" Required><br>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select><br>
+                <lebal for="d-o-b">Date of Birth:</lebal>
+                <input id="d-o-b" class= "form-control" type="date" Required><br>
+
+                <lebal id="receive-email"> Would you like to receive an email from your conference sponser?</lebal>
+                <input id="yes" type="radio" value="y" name="yesno" Required/>
+                <lebal for="yes">Yes</lebal>
+                <input id="no" type="radio" value="n" name="yesno" />
+                <lebal for="no">No</lebal><br>
+
+                <lebal for="session">What session will you be attending?</lebal>
+                <input type="checkbox" name="session" value="morning" checked="checked"/>Morning
+                <input type="checkbox" name="session" value="afternoon"/>Afternoon<br>
+
+                <lebal for="requests">Any special requests?</lebal><br>
+                <textarea id="requests" cols="70" rows="7">Enter requests here...</textarea><br>
+
+                <input type="submit" value="Submit"/>
+            </form>
+        </div>
+    </body>
+</html>

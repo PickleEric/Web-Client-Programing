@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head class="m-3">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="FavoriteProgramStyle.css" type="text/css">
+        
+        <title>My Pay Check Tracker</title>
+        <div class="jumbotron">
+            <h1 id="page-title">Pay Check Tracker</h1>
+        </div class="jumbotron">
+    </head>
+    <body>
+        <p>
+            <pre>
+            For my C# class we had to come up with a program of our very own.
+            I decided to create a program that keeps track of all of your pay check information.
+            Working two jobs it makes things easy to see each pay check you enter, 
+            then it shoots it in to a database and stores it there.
+            For validation I created a log in screen that only lets a person with a 
+            username and password to access the information.
+            </pre>
+            <pre>This is the code for my login screen:</pre>
+            <code class="user-code">
+                using System;
+                using System.Collections.Generic;
+                using System.ComponentModel;
+                using System.Data;
+                using System.Drawing;
+                using System.Linq;
+                using System.Text;
+                using System.Threading.Tasks;
+                using System.Windows.Forms;
+                using System.Data.SqlClient;
+                
+                namespace PayCheckTrackerNew
+                {
+                    public partial class LoginForm : Form
+                    {
+                        public LoginForm()
+                        {
+                            InitializeComponent();
+                        }
+                
+                        private void BtnLogin_Click(object sender, EventArgs e)
+                        {
+                            try
+                            {
+                                SqlConnection sqlcon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Erudz\OneDrive\Desktop\VisualC#\PayCheckTracker\LoginDB\LoginDB.mdf;Integrated Security=True;Connect Timeout=30");
+                                SqlCommand cmd = new SqlCommand("Select * from LoginTable where Username = @Username and Password = @Password", sqlcon);
+                                cmd.Parameters.AddWithValue("@Username", txtUsername.Text);
+                                cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
+                                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                                DataTable dt = new DataTable();
+                                sda.Fill(dt);
+                                sqlcon.Open();
+                                int i = cmd.ExecuteNonQuery();
+                                sqlcon.Close();
+                                if (dt.Rows.Count > 0)
+                                {
+                                    PayCheckTracker objPayCheckTracker = new PayCheckTracker();
+                                    this.Hide();
+                                    objPayCheckTracker.Show();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Incorrect Username or Password");
+                                }
+                            }
+                            catch (SqlException ex)
+                            {
+                                MessageBox.Show("Database error # " + ex.Number + ": " + ex.Message, ex.GetType().ToString());
+                            }
+                        }
+                
+                        private void BtnExit_Click(object sender, EventArgs e)
+                        {
+                            this.Close();
+                        }
+                    }
+                }                
+            </code><br>
+            <img width="300" height="200" src="loginScreen.png" class="center"><br>
+            <pre>
+                Once you are logged in my program takes you to the main screen where you can do all of your data entry.
+                Here is the code for that:
+            </pre>
+            <code class="user-code">
+                using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace PayCheckTrackerNew
+{
+    public partial class PayCheckTracker : Form
+    {
+        public PayCheckTracker()
+        {
+            InitializeComponent();
+        }
+
+        private void PayCheckTracker_Load(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the 'loginDBDataSet.CheckTable' table. You can move, or remove it, as needed.
+            this.checkTableTableAdapter.Fill(this.loginDBDataSet.CheckTable);
+
+        }
+
+        private void BtnCalculate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (IsValidData())
+                {
+                    decimal total = 0;
+                    decimal perHourTotal = 0;
+
+                    decimal cashTips = Convert.ToDecimal(txtCashTips.Text);
+                    decimal hourlyCheckTotal = Convert.ToDecimal(txtHourly.Text);
+                    decimal totalHoursWorked = Convert.ToDecimal(txtHoursWorked.Text);
+
+                    total = cashTips + hourlyCheckTotal;
+                    perHourTotal = total / totalHoursWorked;
+
+                    txtTotal.Text = Convert.ToString(total);
+                    txtPerHour.Text = Convert.ToString(perHourTotal);
+
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("You haven't entered a number in one of the text boxes.", "Error");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(" an error occered: \n" + ex.ToString(), ex.GetType().ToString());
+            }
+
+        }
+        public bool IsValidData()
+        {
+            return
+                IsPresent(txtCashTips, "Cash Tips") &&
+                IsWithinRange(txtCashTips, "Cash Tips", 0, 1000000) &&
+
+                IsPresent(txtHourly, "Hourly Check Total") &&
+                IsWithinRange(txtHourly, "Hourly Check Total", 0, 1000000) &&
+
+                IsPresent(txtHoursWorked, "Total Hours Worked") &&
+                IsWithinRange(txtHoursWorked, "Total Hours Worked", 1, 8760);
+
+        }
+        
+        private bool IsPresent(TextBox textBox, string name)
+        {
+            if (textBox.Text == "")
+            {
+                MessageBox.Show(name + " A value must be present." + "\n" + " please enter a proper integer");
+                textBox.Focus();
+                return false;
+            }
+            return true;
+
+        }
+        // Checks to see if the digits are in the correct range
+        public bool IsWithinRange(TextBox textBox, string name, decimal min, decimal max)
+        {
+            decimal number = Convert.ToDecimal(textBox.Text);
+            if (number <= min || number >= max)
+            {
+                MessageBox.Show(name + "must be between" + min + " and " + max + ".", "Entry Error");
+                textBox.Focus();
+                return false;
+            }
+            return true;
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            txtCompanyName.Text = "";
+            txtCashTips.Text = "";
+            txtHourly.Text = "";
+            txtHoursWorked.Text = "";
+            txtTotal.Text = "";
+            txtPerHour.Text = "";
+        }
+
+        private void BtnView_Click(object sender, EventArgs e)
+        {
+            DataSet objDataSet = new DataSet();
+            this.Hide();
+            objDataSet.Show();
+        }
+
+        private void FillByIDToolStripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int ID = Convert.ToInt32(tstID.Text);
+                this.checkTableTableAdapter.FillByID(this.loginDBDataSet.CheckTable, ID);
+                if(checkTableBindingSource.Count == 0)
+                {
+                    MessageBox.Show("There is no product with that code" + "Please try again", "Product not found");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void FillByIDToolStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void PayCheckTracker_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dialog = MessageBox.Show("Do you really want to close this application? ",
+                "Exit", MessageBoxButtons.YesNo);
+            if (dialog == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+            else if (dialog == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void ToolStripButton1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Validate();
+                this.checkTableBindingSource.EndEdit();
+                this.checkTableTableAdapter.Update(this.loginDBDataSet.CheckTable);
+
+                //string Query = "insert into dbo.CheckTable (Company Name, Start of Pay Period, End of Pay, Cash Tips, Hourly Check Total, Total Hours Worked, Total, Per Hour Total) values(@CompanyName, @Start of Pay Period, @End of Pay, @CashTips, @Hourly Check Total, @Total Hours Worked, @Total, @Per Hour Total)";
+                //using (SqlConnection sqlcon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Erudz\OneDrive\Desktop\VisualC#\PayCheckTracker\LoginDB\LoginDB.mdf;Integrated Security=True;Connect Timeout=30"))
+                //{
+                //    sqlcon.Open();
+                //    using (SqlCommand cmd = new SqlCommand(Query, sqlcon))
+                //    {
+                //        cmd.Parameters.AddWithValue("@Company Name", txtCompanyName.Text);
+                //        cmd.Parameters.AddWithValue("@Start of Pay Period", dtpStart.Text);
+                //        cmd.Parameters.AddWithValue("@End of Pay", dtpEnd.Text);
+                //        cmd.Parameters.AddWithValue("@Cash Tips", txtCashTips.Text);
+                //        cmd.Parameters.AddWithValue("@Hourly Check Total", txtHourly.Text);
+                //        cmd.Parameters.AddWithValue("@Total Hours Worked", txtHoursWorked.Text);
+                //        cmd.Parameters.AddWithValue("@Total", txtTotal.Text);
+                //        cmd.Parameters.AddWithValue("@Per Hour Total", txtPerHour.Text);
+                //        cmd.ExecuteNonQuery();
+                //    }
+                //}
+            }
+            catch (DBConcurrencyException)
+            {
+                MessageBox.Show("A concurrency error occurred. " + "Some rows were not updated.", "Concurrency Exception");
+            }
+            catch (DataException ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+                checkTableBindingSource.CancelEdit();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number + ": " + ex.Message, ex.GetType().ToString());
+            }
+        }
+    }
+    
+}
+            </code><br>
+            <img width="400" height="400" src="mainScreen.png" class="center">
+            <pre>
+                Lastly you can check the data table by clicking the view button. 
+            </pre>
+            <code class="user-code">
+                using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace PayCheckTrackerNew
+{
+    public partial class DataSet : Form
+    {
+        public DataSet()
+        {
+            InitializeComponent();
+        }
+
+        private void DataSet_Load(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the 'loginDBDataSet1.CheckTable' table. You can move, or remove it, as needed.
+            this.checkTableTableAdapter.Fill(this.loginDBDataSet1.CheckTable);
+            
+        }
+
+        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void BtnReturn_Click(object sender, EventArgs e)
+        {
+            PayCheckTracker objPayCheckTracker = new PayCheckTracker();
+            this.Hide();
+            objPayCheckTracker.Show();
+        }
+
+        private void FillByIDToolStripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.checkTableTableAdapter.FillByID(this.loginDBDataSet1.CheckTable, ((int)(System.Convert.ChangeType(idToolStripTextBox.Text, typeof(int)))));
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+
+        }
+    }
+}
+            </code><br>
+            <img width="800" height="300" src="dataSetScreen.png" class="center">
+        </p>
+    </body>
+</html>

@@ -1,0 +1,9 @@
+#bridge-map {
+    width: 600px;
+    height: 500px;
+    border: 1px blueviolet solid;
+}
+h1 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rebeccapurple;
+}

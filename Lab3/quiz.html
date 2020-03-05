@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title></title>
+</head>
+<body>
+<p>What is the capital of Wisconsin?</p>
+
+<button class='wrong-answer'>Bayfield</button>
+<button id='correct-answer'>Madison</button>
+<button class='wrong-answer'>Milwaukee</button>
+
+<p id="result"></p>
+<p id='mouse-me'>Move the mouse Over this message</p>
+<script>
+    let correctAnswerButton = document.querySelector('#correct-answer')
+    let result = document.querySelector('#result')
+    let wrongAnswerButtons = document.querySelectorAll('.wrong-answer')
+    let message = document.querySelector('#mouse-me')
+    let countMouse = 0
+    let listItem = document.createElement('li');
+    list.Item.innerHTML = name;
+    languageList.appendChild(listItem)
+    message.addEventListener('mouseover', function(){
+        countMouse = countMouse + 1
+        message.innerHTML = 'Your mouse is on this message' + countMouse + 'times'
+    })
+    message.addEventListener('mouseout', function(){
+        message.innerHTML = 'Your mouse is NOT on this message'
+    })
+    for (let x = 0; x < wrongAnswerButtons.length; x++) {
+        let wrongAnswerButton = wrongAnswerButtons[x] 
+        wrongAnswerButton.addEventListener('click', function() {
+            result.innerHTML = 'Wrong answer, try again?'
+            wrongAnswerButton.style.background = 'green'
+        })
+    }
+    correctAnswerButton.addEventListener('click', function(){
+        result.innerHTML = 'Correct answer!'
+        correctAnswerButton.style.background = 'white'
+        
+    })
+function select() {
+var 
+var element = document.getElementById("li");
+  element.classList.toggle("mystyle");
+}
+
+</script>
+
+</body>
+</html>

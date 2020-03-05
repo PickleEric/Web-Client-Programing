@@ -1,0 +1,45 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="app">
+    <h1>Hello Vue!</h1>
+    <p>{{ message | uppercase }}</p>
+    <p>{{ anotherMessage }}</p>
+    <p>This date is {{ anotherdate }}</p>
+    <label for="name">Please enter your name: </lebal>
+    <input v-model="name" id="name">
+    <p v-if = "name.length > 0">
+        Your name is {{ name }}
+    </p>
+    <button v-on:click='addExclamation'>Add !</button>
+    <button v-on:click='clearData'>Clear</button>
+</div>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            name: "",
+            message: 'Hello world!',
+            anotherMessage: "Welcome to the matrix",
+            anotherdate: new Date(),
+            count: 1,
+        },
+        methods: {
+            addExclamation: function(){
+                if(this.count < 11) {
+                this.message = this.message + '!'
+                this.count++
+                //this.message = this.message + characterToAdd
+                }
+            },
+            clearData: function() {
+                this.message  = ""
+                this.name = ''
+            }
+        },
+        filters: {
+            uppercase: function(string) {
+                return string.toUpperCase()
+            }
+        }
+    })
+</script>

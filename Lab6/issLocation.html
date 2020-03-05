@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello Fetch - Where's the ISS?</title>
+
+        <link rel="stylesheet" href ='https://unpkg.com/leaflet@1.4.0/dist/leaflet.css'>
+        <script src='https://unpkg.com/leaflet@1.4.0/dist/leaflet.js'></script>
+
+        <link rel="stylesheet" type="text/css" href= "style.css">
+        <script async defer src="fetch.js"></script>
+
+    </head>
+    <body>
+        <h1>Where is the International Space Station?</h1>
+        <div>
+            <p> This page will update every 10 secounds.</p>
+            <div id="set-time"></div>
+            <p>ISS Latitude: <span id="iss-lat"></span></p>
+            <p>ISS Longitude: <span id="iss-long"></span></p>
+        </div>
+        <div id="iss-map"></div>
+        <p>Icon provided by:</p><a href='https://thenounproject.com/search/?q=iss&creator=2456089&i=956251'>Viktor Korobkov</a>
+    </body>
+</html>

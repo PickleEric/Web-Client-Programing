@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <body class="m-3">
+    <head>
+        <title>Student Feedback</title i>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="feedbackstyles.css" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Bangers|Bowlby+One+SC&display=swap" rel="stylesheet">
+        <div class="jumbotron">
+        <h1 id="page-title">Student Feedback</h1>
+        </div>
+    </head>
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <img width= "200" height= "200"src="eeveeband.jpg">
+                <p>Please Enter all information in correctly.</p>
+                <p>Leave no box blank.</p>
+                <p>Thank you!</p>
+            </div>
+        </div>
+    <div class="col-md-3">
+    <form class="ml-5">
+            <br><lebal for="name">Name:</lebal><input id="name" class="form-control" type="text">
+            <br><lebal for="email">Email:</lebal><input id="email" class="form-control" type="email">
+            <br><lebal for="comments">Comments: </lebal>
+            <br><textarea id="comments" class="form-control" required></textarea required>
+
+            <br><p class="form-text">Are you a current student?</p>
+            <div class="form-check">
+
+            <br><input id="yes" name="current-student" class="form-check-input" type="radio">
+            <br><label for="yes" class="form-check-input"> Yes </label>
+            </div>
+            <div class="form-check">
+
+            <br><input id="no" name="current-student" class="form-check-input" type="radio">
+            <br><label for="no" class="form-check-input"> No </label>
+            </div>
+            <br><input class="btn btn-dark" type="submit">
+    </form>
+    </div>
+    </div>
+    </body>
+</html>

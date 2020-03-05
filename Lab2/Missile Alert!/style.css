@@ -1,0 +1,8 @@
+#real-alert {
+    color:red;
+    font-size: 5px;
+}
+#test-only {
+    color: green;
+    font-size: 30px;
+}

@@ -1,0 +1,61 @@
+p {
+ color: teal;
+ font-size: 20px;
+}
+h1 {
+    color: white;
+    text-align: center;
+}
+body {
+    background-color: turquoise;
+    font-family: Perpetua, serif;
+}
+a {
+    background-color: lightblue;
+    text-decoration: none;
+}
+.item-title {
+    font-family: Arial, serif;
+    background-color: orange;
+}
+#food-list-title {
+    color: darkblue;
+}
+#food-list {
+    color: darkorange;
+}
+#page-title {
+    color: black;
+    text-shadow: 2px 2px gray;
+    margin: 40px;
+}
+#favorite-music-name {
+    background-color:purple;
+}
+.favorite-section {
+    border: 5px black solid;
+    margin: 5px;
+    box-shadow: whitesmoke;
+    padding: 15px;
+}
+li {
+    margin-left: 40px;
+}
+#favorite-images-title {
+    color: green;
+}
+#my-name {
+    font-family: comic;
+    color: orange;
+}
+img {
+    border: 5px solid black;
+    border-radius: 20px;
+    padding: 2px;
+}
+th {
+    color: white;
+}
+td {
+    color: red;
+}
