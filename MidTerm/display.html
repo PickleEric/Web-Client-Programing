@@ -3,22 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <title>Stretchy Snake</title>
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <style>
 
     #canvas {
-        background-color: aqua;
-        border: 1px black solid;
+        background-color:rgb(21, 163, 44);
+        border: 10px black solid;
+    }
+    h1 {
+      color:rgb(20, 133, 44)
+    }
+    h2 {
+      font-family:sans-serif;
+      font-style: italic;
     }
 
   </style>
+<script async defer src="wall.js"></script> 
+<script async defer src="treat.js"></script>
 <script async defer src="snake.js"></script>
 <script async defer src="displayCanvas.js"></script>
 </head>
-<canvas id="canvas" height="400" width="400"></canvas>
 <body>
-    <script>
+<div class="row">
+  <div class="col-md-4">
+    <div>
+    <canvas id="canvas" height="400" width="400"></canvas>
+    <h1 class="score"></h1>
+    </div>
+  </div>
 
+<div class="col-md-5">
+    <h1 class="gameTitle">Stretchy Snake</h1>
+    <h2>Scoreboard</h2>
+
+    <label for="playerName">Player Tag: </label><input id="playerName" name="playerName">
+    <br>
+    <button id="addPlayer">Add Player</button>    
+    <h2>Player: <span id="playerCount"></span></h2>
+    <ol id="playerList">
+    </ol>
+  </div>
+</div>
+    <script>
+      let addButtonEl = document.querySelector("#addPlayer") // creates the button element for add player
+      let playerName = document.querySelector("#playerName") // create the playername element
+      let playerCountEl = document.querySelector("#playerCount") // creates our count element
+      let playerListEl = document.querySelector("#playerList") // creates our list element for things to be added to it 
+      let playerScore = document.getElementById("#score") //gets our score element 
+      addButtonEl.addEventListener("click", function(){// a click event for the button element
+
+        if(playerName.value == ""){//if there is nothing in the player name value
+          alert('Please enter a player tag.')// alerts user to enter in a player tag
+          return
+        } 
+        console.log(playerScore)
+        let playerString = playerName.value  + " " + playerScore// was having trouble getting playerscore to show in the table just show null
+        let playerListItem = document.createElement('li')//creates the list item using the createlement function
+        playerListItem.innerHTML = playerString //writes the playerstring to the list item 
+        playerListEl.appendChild(playerListItem)// appends the player list item to the list element
+        updateCount()// calls the count function each time an element is created 
+      })
+      function updateCount() {// count function
+        var count = playerListEl.childElementCount;// counts for each element in the list
+        playerCountEl.innerHTML = count; // stores the count in the player count element
+      }
     </script>
 </body>
 </html>
